@@ -3,8 +3,9 @@ from sqlmodel import Session, SQLModel, create_engine, select
 from sqlmodel.pool import StaticPool
 from infrastructure.database.models import UserModel
 from infrastructure.security.hashing import hash_password, verify_password
-from infrastructure.security.password_recovery import create_recovery_token
+from infrastructure.security.password_recovery import create_recovery_token, verify_recovery_token
 from application.commands.reset_password import ResetPasswordCommand, ResetPasswordHandler
+from application.commands.forgot_password import ForgotPasswordCommand, ForgotPasswordHandler
 from domain.entities.user import UserRole
 
 @pytest.fixture(name="session")
@@ -60,6 +61,38 @@ def test_reset_password_user_not_found(session: Session):
     token = create_recovery_token(email)
     command = ResetPasswordCommand(token=token, new_password="newpassword123")
     handler = ResetPasswordHandler(session)
+
+    # When / Then
+    with pytest.raises(ValueError, match="User not found"):
+        handler.handle(command)
+
+def test_forgot_password_success(session: Session):
+    # Given
+    email = "user@example.com"
+    user = UserModel(
+        email=email,
+        password_hash=hash_password("password123"),
+        role=UserRole.CLIENT.value
+    )
+    session.add(user)
+    session.commit()
+
+    command = ForgotPasswordCommand(email=email)
+    handler = ForgotPasswordHandler(session)
+
+    # When
+    token = handler.handle(command)
+
+    # Then
+    assert token is not None
+    decoded_email = verify_recovery_token(token)
+    assert decoded_email == email
+
+def test_forgot_password_user_not_found(session: Session):
+    # Given
+    email = "nonexistent@example.com"
+    command = ForgotPasswordCommand(email=email)
+    handler = ForgotPasswordHandler(session)
 
     # When / Then
     with pytest.raises(ValueError, match="User not found"):
