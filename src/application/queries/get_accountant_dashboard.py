@@ -4,12 +4,21 @@ from datetime import datetime
 from sqlmodel import Session, select
 from src.infrastructure.database.models import AccountantModel, SubscriptionModel, SystemPlanModel
 
-class DashboardDTO(BaseModel):
-    accountant_name: str
+class BrandDTO(BaseModel):
     primary_color: str
     secondary_color: str
-    plan_name: Optional[str] = None
-    expires_at: Optional[datetime] = None
+    logo_url: Optional[str]
+
+class SubscriptionDTO(BaseModel):
+    plan_name: str
+    status: str
+    expires_at: datetime
+
+class DashboardDTO(BaseModel):
+    name: str
+    cnpj: str
+    brand: BrandDTO
+    subscription: Optional[SubscriptionDTO]
 
 class GetAccountantDashboardQuery(BaseModel):
     accountant_id: str
@@ -30,22 +39,38 @@ class GetAccountantDashboardHandler:
         result = self.session.exec(statement).first()
         
         if not result:
-            # Try to get just the accountant if the join failed due to some reason 
-            # (though with outer join it should return something if accountant exists)
             accountant = self.session.get(AccountantModel, query.accountant_id)
             if not accountant:
                 raise ValueError("Accountant not found")
+            
             return DashboardDTO(
-                accountant_name=accountant.name,
-                primary_color=accountant.primary_color,
-                secondary_color=accountant.secondary_color
+                name=accountant.name,
+                cnpj=accountant.cnpj,
+                brand=BrandDTO(
+                    primary_color=accountant.primary_color,
+                    secondary_color=accountant.secondary_color,
+                    logo_url=accountant.logo_url
+                ),
+                subscription=None
             )
 
         accountant, subscription, plan = result
+        
+        subscription_dto = None
+        if subscription and plan:
+            subscription_dto = SubscriptionDTO(
+                plan_name=plan.name,
+                status=subscription.status,
+                expires_at=subscription.expires_at
+            )
+
         return DashboardDTO(
-            accountant_name=accountant.name,
-            primary_color=accountant.primary_color,
-            secondary_color=accountant.secondary_color,
-            plan_name=plan.name if plan else None,
-            expires_at=subscription.expires_at if subscription else None
+            name=accountant.name,
+            cnpj=accountant.cnpj,
+            brand=BrandDTO(
+                primary_color=accountant.primary_color,
+                secondary_color=accountant.secondary_color,
+                logo_url=accountant.logo_url
+            ),
+            subscription=subscription_dto
         )

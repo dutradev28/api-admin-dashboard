@@ -58,8 +58,11 @@ def test_get_accountant_dashboard_query(session: Session):
     
     # Then
     assert isinstance(dashboard_data, DashboardDTO)
-    assert dashboard_data.accountant_name == "Tech Accounting"
-    assert dashboard_data.primary_color == "#123456"
-    assert dashboard_data.secondary_color == "#654321"
-    assert dashboard_data.plan_name == "Pro Plan"
-    assert dashboard_data.expires_at == expires_at
+    assert dashboard_data.name == "Tech Accounting"
+    assert dashboard_data.cnpj == "12345678000199"
+    assert dashboard_data.brand.primary_color == "#123456"
+    assert dashboard_data.brand.secondary_color == "#654321"
+    assert dashboard_data.subscription is not None
+    assert dashboard_data.subscription.plan_name == "Pro Plan"
+    assert dashboard_data.subscription.status == "active"
+    assert dashboard_data.subscription.expires_at == expires_at
