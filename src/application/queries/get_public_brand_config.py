@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional
 from sqlmodel import Session
-from src.infrastructure.database.models import AccountantModel
+from infrastructure.database.models import AccountantModel
 
 class PublicBrandDTO(BaseModel):
     primary_color: str

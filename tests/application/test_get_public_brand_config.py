@@ -1,7 +1,7 @@
 import pytest
 from sqlmodel import Session, SQLModel, create_engine
 from sqlmodel.pool import StaticPool
-from src.infrastructure.database.models import AccountantModel
+from infrastructure.database.models import AccountantModel
 
 @pytest.fixture(name="session")
 def session_fixture():
@@ -28,7 +28,7 @@ def test_get_public_brand_config(session: Session):
     session.refresh(accountant)
 
     # When: We try to fetch the public brand config
-    from src.application.queries.get_public_brand_config import (
+    from application.queries.get_public_brand_config import (
         GetPublicBrandConfigQuery,
         GetPublicBrandConfigHandler,
         PublicBrandDTO

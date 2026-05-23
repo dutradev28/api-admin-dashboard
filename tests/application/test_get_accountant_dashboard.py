@@ -2,8 +2,8 @@ import pytest
 from datetime import datetime, timedelta
 from sqlmodel import Session, SQLModel, create_engine
 from sqlmodel.pool import StaticPool
-from src.infrastructure.database.models import AccountantModel, SystemPlanModel, SubscriptionModel
-from src.application.queries.get_accountant_dashboard import (
+from infrastructure.database.models import AccountantModel, SystemPlanModel, SubscriptionModel
+from application.queries.get_accountant_dashboard import (
     GetAccountantDashboardQuery,
     GetAccountantDashboardHandler,
     DashboardDTO

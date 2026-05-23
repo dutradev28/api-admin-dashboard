@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
 from sqlmodel import Session, select
-from src.infrastructure.database.models import AccountantModel, SubscriptionModel, SystemPlanModel
+from infrastructure.database.models import AccountantModel, SubscriptionModel, SystemPlanModel
 
 class BrandDTO(BaseModel):
     primary_color: str

@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from decimal import Decimal
 from sqlmodel import Session
-from src.infrastructure.database.models import SystemPlanModel
+from infrastructure.database.models import SystemPlanModel
 
 class CreateSystemPlanCommand(BaseModel):
     name: str

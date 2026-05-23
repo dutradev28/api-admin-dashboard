@@ -1,8 +1,8 @@
 import pytest
 from sqlmodel import Session, SQLModel, create_engine
 from sqlmodel.pool import StaticPool
-from src.application.commands.update_white_label import UpdateWhiteLabelCommand, UpdateWhiteLabelHandler
-from src.infrastructure.database.models import AccountantModel
+from application.commands.update_white_label import UpdateWhiteLabelCommand, UpdateWhiteLabelHandler
+from infrastructure.database.models import AccountantModel
 
 @pytest.fixture(name="session")
 def session_fixture():

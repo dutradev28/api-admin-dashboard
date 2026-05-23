@@ -1,7 +1,7 @@
 from datetime import datetime
 from pydantic import BaseModel
 from sqlmodel import Session, select
-from src.infrastructure.database.models import SubscriptionModel
+from infrastructure.database.models import SubscriptionModel
 
 class AssignPlanCommand(BaseModel):
     accountant_id: str

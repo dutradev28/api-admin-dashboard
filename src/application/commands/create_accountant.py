@@ -1,8 +1,8 @@
 from pydantic import BaseModel
 from sqlmodel import Session
-from src.infrastructure.database.models import AccountantModel, UserModel
-from src.infrastructure.security.hashing import hash_password
-from src.domain.entities.user import UserRole
+from infrastructure.database.models import AccountantModel, UserModel
+from infrastructure.security.hashing import hash_password
+from domain.entities.user import UserRole
 
 class CreateAccountantCommand(BaseModel):
     name: str

@@ -1,9 +1,9 @@
 import pytest
 from sqlmodel import Session, SQLModel, create_engine, select
 from sqlmodel.pool import StaticPool
-from src.application.commands.create_accountant import CreateAccountantCommand, CreateAccountantHandler
-from src.infrastructure.database.models import AccountantModel, UserModel
-from src.domain.entities.user import UserRole
+from application.commands.create_accountant import CreateAccountantCommand, CreateAccountantHandler
+from infrastructure.database.models import AccountantModel, UserModel
+from domain.entities.user import UserRole
 
 @pytest.fixture(name="session")
 def session_fixture():

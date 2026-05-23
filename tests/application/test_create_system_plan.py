@@ -2,9 +2,9 @@ import pytest
 from decimal import Decimal
 from sqlmodel import Session, SQLModel, create_engine
 from sqlmodel.pool import StaticPool
-from src.infrastructure.database.models import SystemPlanModel
+from infrastructure.database.models import SystemPlanModel
 # These will fail to import initially
-from src.application.commands.create_system_plan import CreateSystemPlanCommand, CreateSystemPlanHandler
+from application.commands.create_system_plan import CreateSystemPlanCommand, CreateSystemPlanHandler
 
 @pytest.fixture(name="session")
 def session_fixture():

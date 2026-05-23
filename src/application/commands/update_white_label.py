@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from sqlmodel import Session
-from src.infrastructure.database.models import AccountantModel
+from infrastructure.database.models import AccountantModel
 
 class UpdateWhiteLabelCommand(BaseModel):
     accountant_id: str

@@ -2,8 +2,8 @@ import pytest
 from datetime import datetime, timedelta
 from sqlmodel import Session, SQLModel, create_engine, select
 from sqlmodel.pool import StaticPool
-from src.application.commands.assign_plan import AssignPlanCommand, AssignPlanHandler
-from src.infrastructure.database.models import AccountantModel, SystemPlanModel, SubscriptionModel
+from application.commands.assign_plan import AssignPlanCommand, AssignPlanHandler
+from infrastructure.database.models import AccountantModel, SystemPlanModel, SubscriptionModel
 
 @pytest.fixture(name="session")
 def session_fixture():
