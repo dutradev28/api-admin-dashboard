@@ -45,3 +45,26 @@ class SubscriptionModel(SQLModel, table=True):
     
     accountant: AccountantModel = Relationship(back_populates="subscriptions")
     plan: SystemPlanModel = Relationship()
+
+class AccountantPlanModel(SQLModel, table=True):
+    __tablename__ = "accountant_plans"
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()), primary_key=True)
+    accountant_id: str = Field(foreign_key="accountants.id")
+    name: str
+    price: Decimal = Field(sa_column=Column(Numeric(10, 2)))
+    description: Optional[str] = None
+    
+    accountant: "AccountantModel" = Relationship()
+
+class ClientModel(SQLModel, table=True):
+    __tablename__ = "clients"
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()), primary_key=True)
+    accountant_id: str = Field(foreign_key="accountants.id")
+    accountant_plan_id: Optional[str] = Field(default=None, foreign_key="accountant_plans.id")
+    name: str
+    email: str = Field(index=True)
+    cnpj: str = Field(index=True)
+    status: str = "active"
+    
+    accountant: "AccountantModel" = Relationship()
+    plan: Optional[AccountantPlanModel] = Relationship()
